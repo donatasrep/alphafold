@@ -1943,8 +1943,10 @@ class EmbeddingsAndEvoformer(hk.Module):
             template_batch,
             mask_2d,
             is_training=is_training)
-
-        pair_activations += template_pair_representation
+        
+        multiplier = c.template.weight * (jax.numpy.absolute(batch['prev_pos']).mean() < 0.0001 or not c.template.only_init)
+        
+        pair_activations += pair_activations + (multiplier * template_pair_representation)
 
       # Embed extra MSA features.
       # Jumper et al. (2021) Suppl. Alg. 2 "Inference" lines 14-16
