@@ -318,6 +318,8 @@ CONFIG = ml_collections.ConfigDict({
             'recycle_pos': True,
             'seq_channel': 384,
             'template': {
+                'weight': 1.0,
+                'only_init': False,
                 'attention': {
                     'gating': False,
                     'key_dim': 64,
@@ -563,6 +565,8 @@ CONFIG_MULTIMER = ml_collections.ConfigDict({
             'recycle_features': True,
             'recycle_pos': True,
             'template': {
+                'weight': 1.0,
+                'only_init': False,
                 'attention': {
                     'gating': False,
                     'num_head': 4
