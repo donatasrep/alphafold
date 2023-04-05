@@ -1944,7 +1944,10 @@ class EmbeddingsAndEvoformer(hk.Module):
             mask_2d,
             is_training=is_training)
         
-        multiplier = c.template.weight * (jax.numpy.absolute(batch['prev_pos']).mean() < 0.0001 or not c.template.only_init)
+        if c.template.only_init:
+            multiplier = c.template.weight * (jax.numpy.absolute(batch['prev_pos']).mean() < 0.0001)
+        else:
+            multiplier = c.template.weight
         
         pair_activations += pair_activations + (multiplier * template_pair_representation)
 
