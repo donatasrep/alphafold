@@ -118,7 +118,7 @@ class RunModel:
     logging.info('Output shape was %s', shape)
     return shape
 
-    def predict(self,
+  def predict(self,
               feat: features.FeatureDict,
               random_seed: int = 0,
               return_representations: bool = False,
