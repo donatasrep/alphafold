@@ -118,11 +118,12 @@ class RunModel:
     logging.info('Output shape was %s', shape)
     return shape
 
-  def predict(self,
+    def predict(self,
               feat: features.FeatureDict,
               random_seed: int = 0,
               return_representations: bool = False,
-              callback: Any = None) -> Mapping[str, Any]:
+              callback: Any = None,
+              initial_guess: np.ndarray = None) -> Mapping[str, Any]:
     """Makes a prediction by inferencing the model on the provided features.
 
     Args:
@@ -130,6 +131,7 @@ class RunModel:
         RunModel.process_features.
       random_seed: The random seed to use when running the model. In the
         multimer model this controls the MSA sampling.
+      initial_guess: Array with initial positions.
 
     Returns:
       A dictionary of model outputs.
@@ -150,9 +152,12 @@ class RunModel:
     # initialize
 
     zeros = lambda shape: np.zeros(shape, dtype=np.float16)
+    prev_pos = zeros([L,37,3])
+    if initial_guess is not None:
+      prev_pos += initial_guess
     prev = {'prev_msa_first_row': zeros([L,256]),
             'prev_pair':          zeros([L,L,128]),
-            'prev_pos':           zeros([L,37,3])}
+            'prev_pos':           prev_pos}
     
     def run(key, feat, prev):
       def _jnp_to_np(x):
