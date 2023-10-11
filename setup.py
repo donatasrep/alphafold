@@ -28,25 +28,6 @@ setup(
     license='Apache License, Version 2.0',
     url='https://github.com/sokrypton/alphafold',
     packages=find_packages(),
-    install_requires=[
-        'absl-py',
-        'biopython',
-        'chex',
-        'dm-haiku',
-        'dm-tree',
-        'docker',
-        'immutabledict',
-        'jax',
-        'ml-collections',
-        'numpy',
-        'pandas',
-        'scipy',
-        'tensorflow-cpu',
-    ],
-    tests_require=[
-        'matplotlib',  # For notebook_utils_test.
-        'mock',
-    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Science/Research',
