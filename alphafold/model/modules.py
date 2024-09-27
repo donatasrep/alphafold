@@ -186,7 +186,7 @@ class AlphaFold_noE(hk.Module):
     # initialize
     if prev is None:
 
-      L = num_residues
+      L = batch["aatype"].shape[0]
       prev = {'prev_msa_first_row': jnp.zeros([L,256]),
               'prev_pair':          jnp.zeros([L,L,128]),
               'prev_pos':           jnp.zeros([L,37,3])}
@@ -1929,7 +1929,7 @@ class EmbeddingsAndEvoformer(hk.Module):
       if c.max_relative_feature:
         # Add one-hot-encoded clipped residue distances to the pair activations.
         pos = batch['residue_index']
-        offset = pos[:,None] - pos[None,:]
+        offset = batch.pop("offset", pos[:,None] - pos[None,:])
         offset = jnp.clip(offset + c.max_relative_feature, a_min=0, a_max=2 * c.max_relative_feature)
         if "asym_id" in batch:
           o = batch['asym_id'][:,None] - batch['asym_id'][None,:]

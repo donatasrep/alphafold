@@ -446,7 +446,7 @@ class AlphaFold(hk.Module):
     # initialize
     prev = batch.pop("prev", None)    
     if prev is None:
-      L = num_residues
+      L = num_res
       prev = {'prev_msa_first_row': jnp.zeros([L,256]),
               'prev_pair':          jnp.zeros([L,L,128]),
               'prev_pos':           jnp.zeros([L,37,3])}
@@ -513,7 +513,7 @@ class EmbeddingsAndEvoformer(hk.Module):
     pos = batch['residue_index']
     asym_id = batch['asym_id']
     asym_id_same = jnp.equal(asym_id[:, None], asym_id[None, :])
-    offset = pos[:, None] - pos[None, :]
+    offset = batch.pop("offset", pos[:,None] - pos[None,:])
     dtype = jnp.bfloat16 if gc.bfloat16 else jnp.float32
 
     clipped_offset = jnp.clip(
